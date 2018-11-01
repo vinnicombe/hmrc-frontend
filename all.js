@@ -30,9 +30,8 @@
       if (callNow) func.apply(context, args);
     }
   }
-  (function (global) {
 
-    var HMRC = global.HMRC || {};
+  function initAccountMenu (global, HMRC) {
 
     HMRC.accountMenu = (function (global) {
       var $nav = document.querySelector('.hmrc-account-menu');
@@ -264,15 +263,14 @@
         return element.innerWidth <= 768
       }
 
-      return {
-        init
-      }
+      init();
     })(global);
+  }
 
-    global.HMRC = HMRC;
-  })(window);
+  window.HMRC = window.HMRC || {};
+
   if (document.querySelector('[data-module="hmrc-account-menu"]')) {
-    window.HMRC.accountMenu.init();
+    initAccountMenu(window, window.HMRC);
   }
 
 })));

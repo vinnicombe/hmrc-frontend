@@ -1,7 +1,7 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define('HMRCFrontend', factory) :
-  (factory());
+  (global.HMRCFrontend = factory());
 }(this, (function () { 'use strict';
 
   // TODO: move this to utils
@@ -30,9 +30,8 @@
       if (callNow) func.apply(context, args);
     }
   }
-  (function (global) {
 
-    var HMRC = global.HMRC || {};
+  function initAccountMenu (global, HMRC) {
 
     HMRC.accountMenu = (function (global) {
       var $nav = document.querySelector('.hmrc-account-menu');
@@ -264,12 +263,10 @@
         return element.innerWidth <= 768
       }
 
-      return {
-        init
-      }
+      init();
     })(global);
+  }
 
-    global.HMRC = HMRC;
-  })(window);
+  return initAccountMenu;
 
 })));
