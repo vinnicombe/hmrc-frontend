@@ -1,6 +1,0 @@
-examples:
-- name: default
-  href: '/'
-  data:
-    messageCount: 2
-  
