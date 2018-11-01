@@ -1,14 +1,14 @@
 {
   "assets": [
-    "/src/components/account-menu/images"
+    "/components/account-menu/images"
   ],
   "nunjucksPaths": [
-    "/src/components"
+    "/components"
   ],
   "sass": [
-    "/src/_prototype-kit.scss"
+    "/_prototype-kit.scss"
   ],
   "scripts": [
-    "/src/components/account-menu/account-menu.js"
+    "/components/account-menu/account-menu.js"
   ]
 }
