@@ -11,7 +11,6 @@
   // leading edge, instead of the trailing.
 
   function debounce (func, wait, immediate) {
-    // testing release
     var timeout;
 
     return function () {
