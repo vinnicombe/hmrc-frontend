@@ -232,11 +232,10 @@
 
         $mainNav.classList.add('hmrc-subnav-is-open');
 
-        $subNav.classList.add('hmrc-subnav-reveal');
-        $subNav.setAttribute('aria-hidden', 'false');
-        $subNav.setAttribute('aria-expanded', 'true');
-
         setTimeout(function () {
+          $subNav.classList.add('hmrc-subnav-reveal');
+          $subNav.setAttribute('aria-hidden', 'false');
+          $subNav.setAttribute('aria-expanded', 'true');
           $subNav.focus();
         }, 500);
 
