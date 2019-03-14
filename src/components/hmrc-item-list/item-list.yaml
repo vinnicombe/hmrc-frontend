@@ -1,0 +1,50 @@
+params:
+  - itemList:
+    type: array
+    required: true
+    description: the list of items being added to
+    params:
+      - name:
+        type: string
+        required: true
+        description: the identifier for this item
+
+      - changeUrl:
+        type: string
+        description: the URL to edit the details for this item
+
+      - removeUrl:
+        type: string
+        description: the URL to remove this item from the list
+
+  - itemSize:
+      type: string
+      required: false
+      default: short
+      description: 'short or long, used to choose the correct css classes for the first column text'
+
+
+examples:
+- name: default
+  description: A default example.
+  data: {}
+
+- name: directors
+  data:
+    rows:
+      - item: Director One
+        actions:
+        - href: '#'
+          text: 'Change'
+          visuallyHidden: Director One's details
+        - href: '#'
+          text: 'Remove'
+          visuallyHidden: Director One from the list
+      - item: Director Two
+        actions:
+        - href: '#'
+          text: 'Remove'
+          visuallyHidden: Director One's details
+        - href: '#'
+          text: 'Remove'
+          visuallyHidden: Director One from the list

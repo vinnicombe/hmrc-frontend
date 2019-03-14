@@ -1,0 +1,24 @@
+<div class="hmrc-item-list hmrc-item-list--{{ params.itemSize | default('short') }}">
+  {% for row in params.rows %}
+  <div class="hmrc-item-list__contents">
+    <span class="hmrc-item-list__identifier hmrc-item-list__identifier--light">
+      {{ row.item }}
+    </span>
+    <span class="hmrc-item-list__change">
+      <a class="govuk-link" href="{{ item.changeUrl }}">
+        <span aria-hidden="true">Change</span>
+        <span class="govuk-visually-hidden">Change {{ item.name }}</span>
+      </a>
+    </span>
+    <span class="hmrc-item-list__remove">
+      <a class="govuk-link" href="{{ item.removeUrl }}">
+        <span aria-hidden="true">Remove</span>
+        <span class="govuk-visually-hidden">Remove {{item.name}} from the list</span>
+      </a>
+    </span>
+  </div>
+  {% else %}
+    {# empty list stuff goes here #}
+  {% endfor %}
+  {# end loop #}
+</div>
