@@ -92,7 +92,7 @@ examples:
           items:
           - href: '#'
             text: 'Change'
-            visuallyHidden: Change Director One's details
+            visuallyHiddenText: Change Director One's details
           - href: '#'
             text: 'Remove'
-            visuallyHidden: Remove Director One from the list
+            visuallyHiddenText: Remove Director One from the list
