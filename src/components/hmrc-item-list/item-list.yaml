@@ -1,50 +1,98 @@
 params:
-  - itemList:
+  - name: rows
     type: array
     required: true
     description: the list of items being added to
     params:
-      - name:
+      - name: item.text
         type: string
         required: true
-        description: the identifier for this item
+        description: If `html` is set, this is not required. Text to use for each item identifier. If `html` is provided, the `text` argument will be ignored.
 
-      - changeUrl:
+      - name: item.html
         type: string
-        description: the URL to edit the details for this item
+        required: true
+        description: If `text` is set, this is not required. HTML to use for each item identifier. If `html` is provided, the `text` argument will be ignored.
 
-      - removeUrl:
+      - name: item.classes
         type: string
-        description: the URL to remove this item from the list
+        required: false
+        description: Classes to add to the item wrapper
+
+      - name: actions.items
+        type: array
+        required: false
+        description: Array of action item objects
+        params:
+          - name: href
+            type: string
+            required: true
+            description: The value of the link href attribute for an action item
+
+          - name: text
+            type: string
+            required: true
+            description: If `html` is set, this is not required. Text to use within each action item. If `html` is provided, the `text` argument will be ignored.
+
+          - name: html
+            type: string
+            required: true
+            description: If `text` is set, this is not required. HTML to use within the each action item. If `html` is provided, the `text` argument will be ignored.
+
+          - name: visuallyHiddenText
+            type: string
+            required: false
+            description: Actions rely on context from the surrounding content so may require additional accessible text, text supplied to this option is appended to the end, use `html` for more complicated scenarios.
+          - name: classes
+
+          - name: classes
+            type: string
+            required: false
+            description: Classes to add to the action item
+
+
+  - name: classes
+    type: string
+    required: false
+    description: Classes to add to the container.
+
+  - name: attributes
+    type: object
+    required: false
+    description: HTML attributes (for example data attributes) to add to the container.
 
   - itemSize:
       type: string
       required: false
       default: short
-      description: 'short or long, used to choose the correct css classes for the first column text'
+      description: 'short or long, used to choose the correct css class for the first column text'
 
 
 examples:
 - name: default
   description: A default example.
-  data: {}
+  data: {"rows": []}
 
 - name: directors
   data:
     rows:
-      - item: Director One
+      - item:
+          text: Director One
         actions:
-        - href: '#'
-          text: 'Change'
-          visuallyHidden: Director One's details
-        - href: '#'
-          text: 'Remove'
-          visuallyHidden: Director One from the list
-      - item: Director Two
+          items:
+          - href: '#'
+            text: 'Change'
+            visuallyHidden: Director One's details
+          - href: '#'
+            text: 'Remove'
+            visuallyHidden: Director One from the list
+      - item:
+          text: Director Two
         actions:
-        - href: '#'
-          text: 'Remove'
-          visuallyHidden: Director One's details
-        - href: '#'
-          text: 'Remove'
-          visuallyHidden: Director One from the list
+          items:
+          - href: '#'
+            text: 'Change'
+            visuallyHidden: Change Director One's details
+          - href: '#'
+            text: 'Remove'
+            visuallyHidden: Remove Director One from the list

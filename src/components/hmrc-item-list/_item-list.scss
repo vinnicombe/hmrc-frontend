@@ -1,4 +1,5 @@
 .hmrc-item-list {
+  padding-left: 0;
   @include govuk-font($size: 19);
   @include mq($from: desktop) {
     display: table;
@@ -32,7 +33,6 @@
 .hmrc-item-list__contents {
   position: relative;
   padding-bottom: govuk-spacing(1);
-  border-bottom: 1px solid $govuk-border-colour;
   @include mq($from: desktop) {
     display: table-row;
     padding-bottom: 0;
@@ -47,19 +47,19 @@
 }
 
 .hmrc-item-list__identifier,
-.hmrc-item-list__remove,
-.hmrc-item-list__change {
+.hmrc-item--list__actions {
   display: block;
   margin: 0;
+  border-bottom: 1px solid $govuk-border-colour;
   @include mq($from: desktop) {
     display: table-cell;
     padding: govuk-spacing(3) 0;
-    border-bottom: 1px solid $govuk-border-colour;
   }
 }
 
 .hmrc-item-list__identifier {
   margin: govuk-spacing(2) govuk-spacing(9) 0 0;
+  border-bottom: 1px solid $govuk-border-colour;
   font-weight: bold;
   @include mq($from: desktop) {
     margin: 0;
@@ -70,26 +70,50 @@
   font-weight: normal;
 }
 
-.hmrc-item-list__remove {
+.hmrc-item-list__actions {
   margin-top: govuk-spacing(2);
   margin-bottom: govuk-spacing(2);
+  border-bottom: 1px solid $govuk-border-colour;
   text-align: right;
 
-  @include mq($from: desktop) {
+  @include govuk-media-query($from: tablet) {
+    width: 20%;
     padding-right: 0;
+    text-align: right;
   }
 }
 
-.hmrc-item-list__change {
-  position: absolute;
-  top: 0;
-  right: 0;
-  text-align: right;
-  @include mq($from: desktop) {
-    position: static;
+.hmrc-item-list__actions-list {
+  width: 100%;
+  margin: 0; // Reset default user agent styles
+  padding: 15px 0;
+  border-bottom: 1px solid $govuk-border-colour;
 
-    + .hmrc-item-list__remove {
-      width: 6em;
-    }
+}
+
+.hmrc-item-list__actions-list-item {
+  display: inline;
+  margin-right:  govuk-spacing(2);
+  padding-right: govuk-spacing(2);
+}
+
+// In older browsers such as IE8, :last-child is not available,
+// so only show the border divider where it is available.
+.hmrc-item-list__actions-list-item:not(:last-child) {
+  border-right: 1px solid $govuk-border-colour;
+}
+
+.hmrc-item-list__actions-list-item:last-child {
+  margin-right: 0;
+  padding-right: 0;
+  border: 0;
+}
+
+.hmrc-item-list--no-border {
+  .hmrc-item-list__key,
+  .hmrc-item-list__value,
+  .hmrc-item-list__actions,
+  .hmrc-item-list__row {
+    border: 0;
   }
 }
