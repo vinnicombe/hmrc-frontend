@@ -1,0 +1,10 @@
+<script>
+  (function (validate) {
+    window.HMRCFrontend.TimeoutDialog({
+      timeout: validate.int("{{ params.timeout }}"),
+      countdown: validate.int("{{ params.countdown }}"),
+      keepAliveUrl: validate.string("{{ params.keepAliveUrl }}"),
+      signOutUrl: validate.string("{{ params.signOutUrl }}")
+    })
+  }(window.HMRCFrontend.ValidateInput))
+</script>
