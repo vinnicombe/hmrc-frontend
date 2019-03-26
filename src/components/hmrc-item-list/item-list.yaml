@@ -73,6 +73,88 @@ examples:
   description: A default example.
   data: {"rows": []}
 
+- name: single-item
+  description: An item list with a single item
+  data:
+    rows:
+      - item:
+          text: Item One
+
+- name: long-items
+  description: An item list with a single item
+  data:
+    itemSize: long
+    rows:
+      - item:
+          text: This is a longer item identifier with a --long modifier class
+
+- name: html-item
+  description: An item list with a single item
+  data:
+    rows:
+      - item:
+          text: Item One
+          html: HTML Content for <strong>item one</strong>
+
+- name: single-action
+  description: An item list with a single item which has a single action
+  data:
+    rows:
+      - item:
+          text: Item One with action
+        actions:
+          items:
+          - href: '#action1'
+            text: Action
+            visuallyHiddenText: Do the Action on item one
+
+
+- name: many-actions
+  description: An item list with a single long item which has many actions
+  data:
+    itemSize: short
+    rows:
+      - item:
+          text: An item with a very very long identifier and many actions to do many things
+        actions:
+          items:
+          - href: '#action1'
+            text: Action 1
+            visuallyHiddenText: Do the Action one on item one
+          - href: '#action2'
+            text: Action 2
+            visuallyHiddenText: Do the Action two on item one
+          - href: '#action3'
+            text: Action 3
+            visuallyHiddenText: Do the Action three on item one
+          - href: '#action4'
+            text: Action 4
+            visuallyHiddenText: Do the Action on item four
+          - href: '#action5'
+            text: Action 5
+            visuallyHiddenText: Do the Action on item five
+          - href: '#action6'
+            text: Action 6
+            visuallyHiddenText: Do the Action on item six
+          - href: '#action7'
+            text: Action 7
+            visuallyHiddenText: Do the Action on item one
+          - href: '#action8'
+            text: Action 8
+            visuallyHiddenText: Do the Action on item eight
+          - href: '#action9'
+            text: Action 9
+            visuallyHiddenText: Do the Action on item nine
+          - href: '#action10'
+            text: Action 10
+            visuallyHiddenText: Do the Action on item ten
+          - href: '#action11'
+            text: Action 11
+            visuallyHiddenText: Do the Action on item eleven
+          - href: '#action12'
+            text: Action 12
+            visuallyHiddenText: Do the Action on item twelve
+
 - name: directors
   data:
     rows:
@@ -80,19 +162,19 @@ examples:
           text: Director One
         actions:
           items:
-          - href: '#'
+          - href: '#change1'
             text: 'Change'
-            visuallyHidden: Director One's details
-          - href: '#'
+            visuallyHiddenText: Change Director One's details
+          - href: '#remove1'
             text: 'Remove'
-            visuallyHidden: Director One from the list
+            visuallyHiddenText: Remove Director One from the list
       - item:
           text: Director Two
         actions:
           items:
-          - href: '#'
+          - href: '#change2'
             text: 'Change'
             visuallyHiddenText: Change Director One's details
-          - href: '#'
+          - href: '#remove2'
             text: 'Remove'
-            visuallyHiddenText: Remove Director One from the list
+            svisuallyHiddenText: Remove Director One from the list
