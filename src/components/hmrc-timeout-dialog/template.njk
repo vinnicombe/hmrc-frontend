@@ -6,7 +6,8 @@
         timeout: validate.int("{{ params.timeout }}"),
         countdown: validate.int("{{ params.countdown }}"),
         keepAliveUrl: validate.string("{{ params.keepAliveUrl }}"),
-        signOutUrl: validate.string("{{ params.signOutUrl }}")
+        signOutUrl: validate.string("{{ params.signOutUrl }}"),
+        title: validate.string("{{ params.title }}")
       })
     }(window.HMRCFrontend.ValidateInput))
   })

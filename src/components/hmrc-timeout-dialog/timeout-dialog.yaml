@@ -1,6 +1,7 @@
 examples:
 - name: default
   data:
+    title: "Example Timeout Dialog"
     timeout: 70
     countdown: 68
     keepAliveUrl: "?abc=def"
