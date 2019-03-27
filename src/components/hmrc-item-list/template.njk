@@ -9,12 +9,13 @@
 
 <ul class="hmrc-item-list hmrc-item-list--{{ params.itemSize | default('short') }} {%- if params.classes %} {{ params.classes }}{% endif %}" {% for attribute, value in params.attributes %} {{attribute}}="{{value}}"{% endfor %}>
   {% for row in params.rows %}
+  <div>
   <li class="hmrc-item-list__contents">
-    <span class="hmrc-item-list__identifier hmrc-item-list__identifier--light {%- if row.item.classes %} {{ row.item.classes }}{% endif %}">
+    <div class="hmrc-item-list__identifier hmrc-item-list__identifier--light {%- if row.item.classes %} {{ row.item.classes }}{% endif %}">
        {{ row.item.html | safe if row.item.html else row.item.text }}
-    </span>
+    </div>
           {% if row.actions.items %}
-        <span class="hmrc-item-list__actions {%- if row.actions.classes %} {{ row.actions.classes }}{% endif %}">
+        <div class="hmrc-item-list__actions {%- if row.actions.classes %} {{ row.actions.classes }}{% endif %}">
           {% if row.actions.items.length == 1 %}
             {{ _actionLink(row.actions.items[0]) | indent(12) | trim }}
           {% else %}
@@ -26,9 +27,10 @@
               {% endfor %}
             </ul>
           {% endif %}
-        </span>
+        </div>
       {% endif %}
   </li>
+  </div>
   {% else %}
     {# empty list stuff goes here #}
   {% endfor %}
