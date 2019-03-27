@@ -1,9 +1,9 @@
 import displayDialog from './dialog.js'
 import redirectToUrl from './redirectHelper.js'
+import utils from './utils'
 
 function $ () {
   return {
-    text: console.log
   }
 }
 
@@ -73,19 +73,26 @@ function TimeoutDialog (options) {
   }
 
   function setupDialog () {
-    var $countdownElement = $('<span id="timeout-countdown" class="countdown">')
-    // var $element = $('<div>')
-    //   .append(settings.title ? $('<h1 class="heading-medium push--top">').text(settings.title) : '')
-    //   .append($('<p id="timeout-message" role="text">').text(settings.message + ' ')
-    //     .append($countdownElement)
-    //     .append('.'))
-    //   .append($('<button id="timeout-keep-signin-btn" class="button">').text(settings.keepAliveButtonText))
-    //   .append($('<button id="timeout-sign-out-btn" class="button button--link">').text(settings.signOutButtonText))
-    //
-    // $element.find('#timeout-keep-signin-btn').on('click', keepAliveAndClose)
-    // $element.find('#timeout-sign-out-btn').on('click', signOut)
+    var $countdownElement = utils.generateDomElementFromString('<span id="timeout-countdown" class="countdown">')
+    var $element = utils.generateDomElementFromString('<div>')
 
-    var dialogControl = displayDialog('<div><h1>Hello World</h1></div>')
+    if (settings.title) {
+      let $tmp = utils.generateDomElementFromStringAndAppendText('<h1 class="heading-medium push--top">', settings.title)
+      $element.appendChild($tmp)
+    }
+    const $timeoutMessage = utils.generateDomElementFromString('<p id="timeout-message" role="text">')
+    const $staySignedInButton = utils.generateDomElementFromStringAndAppendText('<button id="timeout-keep-signin-btn" class="button">', settings.keepAliveButtonText);
+    const $signOutButton = utils.generateDomElementFromStringAndAppendText('<button id="timeout-sign-out-btn" class="button button--link">', settings.signOutButtonText);
+    $staySignedInButton.addEventListener('click', keepAliveAndClose)
+    $signOutButton.addEventListener('click', signOut)
+    $timeoutMessage.appendChild($countdownElement)
+    $timeoutMessage.appendChild(document.createTextNode('.'))
+    $timeoutMessage.appendChild($staySignedInButton)
+    $timeoutMessage.appendChild($signOutButton)
+
+    $element.appendChild($timeoutMessage)
+
+    var dialogControl = displayDialog($element)
 
     cleanupFunctions.push(function () {
       dialogControl.closeDialog()
@@ -117,7 +124,7 @@ function TimeoutDialog (options) {
         var minutes = Math.ceil(counter / 60)
         message = minutes + ' ' + settings.properties[minutes === 1 ? 'minute' : 'minutes']
       }
-      $countdownElement.text(message)
+      $countdownElement.innerText = message
     }
 
     function runUpdate () {

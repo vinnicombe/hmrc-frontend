@@ -1,7 +1,7 @@
 examples:
 - name: default
   data:
-    timeout: 100
-    countdown: 99
+    timeout: 70
+    countdown: 68
     keepAliveUrl: "?abc=def"
     signOutUrl: "?ghi=jkl"
