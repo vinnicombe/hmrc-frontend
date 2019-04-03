@@ -7,7 +7,7 @@ ValidateInput.int = function (stringToValidate) {
 }
 
 ValidateInput.string = function (stringToValidate) {
-  return '' + stringToValidate
+  return ('' + stringToValidate) || undefined
 }
 
 export default ValidateInput

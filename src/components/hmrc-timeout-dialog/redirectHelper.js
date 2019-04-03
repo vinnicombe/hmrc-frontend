@@ -1,6 +1,8 @@
-function redirectToUrl (url) {
+function RedirectHelper () {}
+
+RedirectHelper.redirectToUrl = url => {
   // This exists to make redirects more testable
   window.location.href = url
 }
 
-export default redirectToUrl
+export default RedirectHelper

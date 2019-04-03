@@ -1,6 +1,6 @@
 import utils from './utils'
 
-function displayDialog($elementToDisplay) {
+function displayDialog ($elementToDisplay) {
   var $dialog = utils.generateDomElementFromString('<div id="timeout-dialog" tabindex="-1" role="dialog" class="timeout-dialog">')
   var $overlay = utils.generateDomElementFromString('<div id="timeout-overlay" class="timeout-overlay">')
   var $preparedElementToDisplay = typeof $elementToDisplay === 'string' ? utils.generateDomElementFromString($elementToDisplay) : $elementToDisplay
@@ -40,20 +40,20 @@ function displayDialog($elementToDisplay) {
   setupKeydownHandler()
   preventMobileScrollWhileAllowingPinchZoom()
 
-  function close() {
+  function close () {
     while (resetElementsFunctionList.length > 0) {
       var fn = resetElementsFunctionList.shift()
       fn()
     }
   }
 
-  function closeAndInform() {
+  function closeAndInform () {
     closeCallbacks.forEach(fn => fn())
     close()
   }
 
-  function setupFocusHandlerAndFocusDialog() {
-    function keepFocus(event) {
+  function setupFocusHandlerAndFocusDialog () {
+    function keepFocus (event) {
       var modalFocus = document.getElementById('timeout-dialog')
       if (modalFocus) {
         if (event.target !== modalFocus && !modalFocus.contains(event.target)) {
@@ -74,8 +74,8 @@ function displayDialog($elementToDisplay) {
     })
   }
 
-  function setupKeydownHandler() {
-    function keydownListener(e) {
+  function setupKeydownHandler () {
+    function keydownListener (e) {
       if (e.keyCode === 27) {
         closeAndInform()
       }
@@ -88,8 +88,8 @@ function displayDialog($elementToDisplay) {
     })
   }
 
-  function preventMobileScrollWhileAllowingPinchZoom() {
-    function handleTouch(e) {
+  function preventMobileScrollWhileAllowingPinchZoom () {
+    function handleTouch (e) {
       var touches = e.originalEvent.touches || e.originalEvent.changedTouches || []
 
       if (touches.length === 1) {
@@ -104,7 +104,7 @@ function displayDialog($elementToDisplay) {
     })
   }
 
-  function createSetterFunctionForAttributeOfDialog(attributeName) {
+  function createSetterFunctionForAttributeOfDialog (attributeName) {
     return function (value) {
       if (value) {
         $dialog.setAttribute(attributeName, value)
@@ -126,4 +126,4 @@ function displayDialog($elementToDisplay) {
   }
 }
 
-export default displayDialog
+export default {displayDialog}

@@ -1,15 +1,8 @@
-import displayDialog from './dialog.js'
-import redirectToUrl from './redirectHelper.js'
+import dialog from './dialog.js'
+import RedirectHelper from './redirectHelper.js'
 import utils from './utils'
 
-function $() {
-  return {}
-}
-
-$.get = function () {
-}
-
-function TimeoutDialog(options) {
+function TimeoutDialog (options) {
   validateInput(options)
 
   var cleanupFunctions = []
@@ -25,23 +18,23 @@ function TimeoutDialog(options) {
       second: 'eiliad'
     }
   }) || {
-    title: undefined,
-    message: 'For your security, we will sign you out in',
-    keepAliveButtonText: 'Stay signed in',
-    signOutButtonText: 'Sign out',
-    properties: {
-      minutes: 'minutes',
-      minute: 'minute',
-      seconds: 'seconds',
-      second: 'second'
+      title: undefined,
+      message: 'For your security, we will sign you out in',
+      keepAliveButtonText: 'Stay signed in',
+      signOutButtonText: 'Sign out',
+      properties: {
+        minutes: 'minutes',
+        minute: 'minute',
+        seconds: 'seconds',
+        second: 'second'
+      }
     }
-  }
 
   var settings = mergeOptionsWithDefaults(options, localisedDefaults)
 
   setupDialogTimer()
 
-  function validateInput(config) {
+  function validateInput (config) {
     var requiredConfig = ['timeout', 'countdown', 'keepAliveUrl', 'signOutUrl']
     var missingRequiredConfig = []
 
@@ -56,11 +49,20 @@ function TimeoutDialog(options) {
     }
   }
 
-  function mergeOptionsWithDefaults(options, localisedDefaults) {
-    return Object.assign({}, localisedDefaults, options)
+  function mergeOptionsWithDefaults (options, localisedDefaults) {
+    const clone = Object.assign({}, options)
+    Object.keys(localisedDefaults).forEach(key => {
+      if (typeof clone[key] === 'object') {
+        clone[key] = mergeOptionsWithDefaults(options[key], localisedDefaults[key])
+      }
+      if (clone[key] === undefined) {
+        clone[key] = localisedDefaults[key]
+      }
+    })
+    return clone
   }
 
-  function setupDialogTimer() {
+  function setupDialogTimer () {
     settings.signout_time = getDateNow() + settings.timeout * 1000
 
     var timeout = window.setTimeout(function () {
@@ -72,7 +74,7 @@ function TimeoutDialog(options) {
     })
   }
 
-  function setupDialog() {
+  function setupDialog () {
     var $countdownElement = utils.generateDomElementFromString('<span id="timeout-countdown" class="countdown">')
     var $element = utils.generateDomElementFromString('<div>')
 
@@ -81,8 +83,8 @@ function TimeoutDialog(options) {
       $element.appendChild($tmp)
     }
     const $timeoutMessage = utils.generateDomElementFromStringAndAppendText('<p id="timeout-message" class="govuk-body" role="text">', settings.message)
-    const $staySignedInButton = utils.generateDomElementFromStringAndAppendText('<button id="timeout-keep-signin-btn" class="govuk-button">', settings.keepAliveButtonText);
-    const $signOutButton = utils.generateDomElementFromStringAndAppendText('<button id="timeout-sign-out-btn" class="govuk-button govuk-button--link">', settings.signOutButtonText);
+    const $staySignedInButton = utils.generateDomElementFromStringAndAppendText('<button id="timeout-keep-signin-btn" class="govuk-button">', settings.keepAliveButtonText)
+    const $signOutButton = utils.generateDomElementFromStringAndAppendText('<button id="timeout-sign-out-btn" class="govuk-button govuk-button--link">', settings.signOutButtonText)
     $staySignedInButton.addEventListener('click', keepAliveAndClose)
     $signOutButton.addEventListener('click', signOut)
 
@@ -94,7 +96,7 @@ function TimeoutDialog(options) {
     $element.appendChild(document.createTextNode(' '))
     $element.appendChild($signOutButton)
 
-    var dialogControl = displayDialog($element)
+    var dialogControl = dialog.displayDialog($element)
 
     cleanupFunctions.push(function () {
       dialogControl.closeDialog()
@@ -110,12 +112,12 @@ function TimeoutDialog(options) {
     startCountdown($countdownElement, dialogControl)
   }
 
-  function getSecondsRemaining() {
+  function getSecondsRemaining () {
     return Math.floor((settings.signout_time - getDateNow()) / 1000)
   }
 
-  function startCountdown($countdownElement, dialogControl) {
-    function updateCountdown(counter, $countdownElement) {
+  function startCountdown ($countdownElement, dialogControl) {
+    function updateCountdown (counter, $countdownElement) {
       var message
       if (counter === 60) {
         dialogControl.setAriaLive()
@@ -129,7 +131,7 @@ function TimeoutDialog(options) {
       $countdownElement.innerText = message
     }
 
-    function runUpdate() {
+    function runUpdate () {
       var counter = getSecondsRemaining()
       updateCountdown(counter, $countdownElement)
       if (counter <= 0) {
@@ -144,29 +146,29 @@ function TimeoutDialog(options) {
     runUpdate()
   }
 
-  function keepAliveAndClose() {
+  function keepAliveAndClose () {
     cleanup()
     setupDialogTimer()
-    $.get(settings.keepAliveUrl, function () {
+    utils.ajaxGet(settings.keepAliveUrl, function () {
     })
   }
 
-  function getDateNow() {
+  function getDateNow () {
     return Date.now() || +new Date()
   }
 
-  function signOut() {
-    redirectToUrl(settings.signOutUrl)
+  function signOut () {
+    RedirectHelper.redirectToUrl(settings.signOutUrl)
   }
 
-  function cleanup() {
+  function cleanup () {
     while (cleanupFunctions.length > 0) {
       var fn = cleanupFunctions.shift()
       fn()
     }
   }
 
-  function readCookie(cookieName) { // From http://www.javascripter.net/faq/readingacookie.htm
+  function readCookie (cookieName) { // From http://www.javascripter.net/faq/readingacookie.htm
     var re = new RegExp('[; ]' + cookieName + '=([^\\s;]*)')
     var sMatch = (' ' + document.cookie).match(re)
     if (cookieName && sMatch) return unescape(sMatch[1])
@@ -175,5 +177,9 @@ function TimeoutDialog(options) {
 
   return {cleanup: cleanup}
 }
+
+TimeoutDialog.dialog = dialog
+TimeoutDialog.redirectHelper = RedirectHelper
+TimeoutDialog.utils = utils
 
 export default TimeoutDialog
