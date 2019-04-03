@@ -1,11 +1,10 @@
 /* eslint-env jest */
 const mock = require('jest-mock')
 
-const allJs = require('../../../public/all')
-const TimeoutDialog = allJs.TimeoutDialog
-const dialog = allJs.TimeoutDialog.dialog
-const redirectHelper = allJs.TimeoutDialog.redirectHelper
-const utils = allJs.TimeoutDialog.utils
+const TimeoutDialog = require('../../../public/components/hmrc-timeout-dialog/timeout-dialog')
+const dialog = TimeoutDialog.dialog
+const redirectHelper = TimeoutDialog.redirectHelper
+const utils = TimeoutDialog.utils
 
 // jest.mock('../../../public/all')
 
