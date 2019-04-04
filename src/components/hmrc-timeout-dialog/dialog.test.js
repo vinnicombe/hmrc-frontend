@@ -84,8 +84,8 @@ describe('Dialog', function () {
       var $lastElement = document.querySelector('body').lastElementChild
       var $secondToLastElement = $lastElement.previousElementSibling
 
-      expect($lastElement.attributes.getNamedItem('id').value).toEqual('timeout-overlay')
-      expect($secondToLastElement.attributes.getNamedItem('id').value).toEqual('timeout-dialog')
+      expect($lastElement.id).toEqual('timeout-overlay')
+      expect($secondToLastElement.id).toEqual('timeout-dialog')
     })
 
     // it('should contain provided element', function () {
@@ -280,7 +280,7 @@ describe('Dialog', function () {
 
     describe('Focus control', function () {
       function expeectActiveElementToHaveId (id) {
-        expect(document.activeElement.attributes.getNamedItem('id').value || document.activeElement.outerHTML).toEqual(id)
+        expect(document.activeElement.id || document.activeElement.outerHTML).toEqual(id)
       }
 
       function appendToBody ($elem) {
@@ -306,158 +306,153 @@ describe('Dialog', function () {
         expeectActiveElementToHaveId('timeout-dialog')
       })
 
-    //   it('should return the focus when closed', function () {
-    //     document.querySelector('#the-element-with-the-focus').focus()
-    //     expeectActiveElementToHaveId('the-element-with-the-focus')
-    //
-    //     openDefaultDialog()
-    //     testScope.dialogControl.closeDialog()
-    //
-    //     expeectActiveElementToHaveId('the-element-with-the-focus')
-    //
-    //     document.querySelector('#different-elem').focus()
-    //
-    //     openDefaultDialog()
-    //     pretendEscapeWasPressed()
-    //
-    //     expeectActiveElementToHaveId('different-elem')
-    //   })
-    //
-    //   it('should not allow focus to move outside the dialog', function () {
-    //     openDefaultDialog()
-    //
-    //     appendToBody(REPLACE_CREATE_ELEMa href=#>').text('this was added after dialog open').attr('id', 'added-after-open'))
-    //
-    //     testScope.elementsCreatedForThisTest.forEach(function ($elem) {
-    //       $elem.focus()
-    //       expeectActiveElementToHaveId('timeout-dialog')
-    //     })
-    //   })
-    //
-    //   it('should allow focus to move outside the dialog after closing', function () {
-    //     openDefaultDialog()
-    //     testScope.dialogControl.closeDialog()
-    //
-    //     document.querySelector('#the-element-with-the-focus').focus()
-    //     expeectActiveElementToHaveId('the-element-with-the-focus')
-    //
-    //     document.querySelector('#different-elem').focus()
-    //     expeectActiveElementToHaveId('different-elem')
-    //   })
-    //
-    //   it('should allow focus to move inside the dialog', function () {
-    //     expeectActiveElementToHaveId('the-element-with-the-focus')
-    //
-    //     testScope.dialogControl = dialog.displayDialog(REPLACE_CREATE_ELEMdiv><a href=# id="button-a">Button A</a><a href=# id="button-b">Button B</a></div>'))
-    //
-    //     document.querySelector('#button-a').focus()
-    //     expeectActiveElementToHaveId('button-a')
-    //
-    //     document.querySelector('#button-b').focus()
-    //     expeectActiveElementToHaveId('button-b')
-    //
-    //     testScope.dialogControl.closeDialog()
-    //
-    //     expeectActiveElementToHaveId('the-element-with-the-focus')
-    //   })
+      it('should return the focus when closed', function () {
+        document.querySelector('#the-element-with-the-focus').focus()
+        expeectActiveElementToHaveId('the-element-with-the-focus')
+
+        openDefaultDialog()
+        testScope.dialogControl.closeDialog()
+
+        expeectActiveElementToHaveId('the-element-with-the-focus')
+
+        document.querySelector('#different-elem').focus()
+
+        openDefaultDialog()
+        pretendEscapeWasPressed()
+
+        expeectActiveElementToHaveId('different-elem')
+      })
+
+      it('should not allow focus to move outside the dialog', function () {
+        openDefaultDialog()
+
+        appendToBody(utils.generateDomElementFromStringAndAppendText('<a href=#>', 'this was added after dialog open')).setAttribute('id', 'added-after-open')
+
+        testScope.elementsCreatedForThisTest.forEach(function ($elem) {
+          $elem.focus()
+          expeectActiveElementToHaveId('timeout-dialog')
+        })
+      })
+
+      it('should allow focus to move outside the dialog after closing', function () {
+        openDefaultDialog()
+        testScope.dialogControl.closeDialog()
+
+        document.querySelector('#the-element-with-the-focus').focus()
+        expeectActiveElementToHaveId('the-element-with-the-focus')
+
+        document.querySelector('#different-elem').focus()
+        expeectActiveElementToHaveId('different-elem')
+      })
+
+      it('should allow focus to move inside the dialog', function () {
+        expeectActiveElementToHaveId('the-element-with-the-focus')
+
+        testScope.dialogControl = dialog.displayDialog(utils.generateDomElementFromString('<div><a href=# id="button-a">Button A</a><a href=# id="button-b">Button B</a></div>'))
+
+        document.querySelector('#button-a').focus()
+        expeectActiveElementToHaveId('button-a')
+
+        document.querySelector('#button-b').focus()
+        expeectActiveElementToHaveId('button-b')
+
+        testScope.dialogControl.closeDialog()
+
+        expeectActiveElementToHaveId('the-element-with-the-focus')
+      })
     })
   })
 
-  // describe('Zoom and Scroll on Mobile', function () {
-  //   function simulateTouchmoveWithNumberOfFingers (n) {
-  //     return triggerTouchmoveEventWith('touches', n)
-  //   }
-  //
-  //   function simulateNumberOfChangedTouches (n) {
-  //     return triggerTouchmoveEventWith('changedTouches', n)
-  //   }
-  //
-  //   function triggerTouchmoveEventWith (arrayName, arrayLength) {
-  //     var arr = []
-  //     for (var i = 0; i < arrayLength; i++) {
-  //       arr.push({})
-  //     }
-  //     var originalEvent = {}
-  //     originalEvent[arrayName] = arr
-  //     var event = $.Event('touchmove', {originalEvent: originalEvent})
-  //     document.querySelector(document).trigger(event)
-  //     return event
-  //   }
-  //
-  //   beforeEach(function () {
-  //     jasmine.addMatchers({
-  //       toHaveHadDefaultPrevented: function () {
-  //         return {
-  //           compare: function (actual) {
-  //             var result = {}
-  //             var passMessage = ['Expected', actual.type, 'event']
-  //             result.pass = actual.isDefaultPrevented()
-  //             if (result.pass) {
-  //               passMessage.push('not', 'to have had default prevented')
-  //             } else {
-  //               passMessage.push('to have had default prevented, but it wasn\'t prevented')
-  //             }
-  //             result.message = passMessage.join(' ')
-  //             return result
-  //           }
-  //         }
-  //       }
-  //     })
-  //   })
-  //   it('should allow all combinations before dialog is open', function () {
-  //     expect(simulateTouchmoveWithNumberOfFingers(1)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(2)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(3)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(4)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(5)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(1)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(2)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(3)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(4)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(5)).not.toHaveHadDefaultPrevented()
-  //   })
-  //   it('should disallow scroll while dialog is open', function () {
-  //     openDefaultDialog()
-  //
-  //     expect(simulateTouchmoveWithNumberOfFingers(1)).toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(1)).toHaveHadDefaultPrevented()
-  //   })
-  //   it('should allow pinch scroll while dialog is open', function () {
-  //     openDefaultDialog()
-  //
-  //     expect(simulateTouchmoveWithNumberOfFingers(2)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(2)).not.toHaveHadDefaultPrevented()
-  //   })
-  //   it('should allow other multifinger touches while dialog is open', function () {
-  //     openDefaultDialog()
-  //
-  //     expect(simulateTouchmoveWithNumberOfFingers(3)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(4)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(5)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(3)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(4)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(5)).not.toHaveHadDefaultPrevented()
-  //   })
-  //   it('should allow all combinations after dialog is closed', function () {
-  //     openDefaultDialog()
-  //     testScope.dialogControl.closeDialog()
-  //
-  //     expect(simulateTouchmoveWithNumberOfFingers(1)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(2)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(3)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(4)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateTouchmoveWithNumberOfFingers(5)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(1)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(2)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(3)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(4)).not.toHaveHadDefaultPrevented()
-  //     expect(simulateNumberOfChangedTouches(5)).not.toHaveHadDefaultPrevented()
-  //   })
-  // })
+  describe('Zoom and Scroll on Mobile', function () {
+    function simulateTouchmoveWithNumberOfFingers (n) {
+      return triggerTouchmoveEventWith('touches', n)
+    }
+
+    function simulateNumberOfChangedTouches (n) {
+      return triggerTouchmoveEventWith('changedTouches', n)
+    }
+
+    function triggerTouchmoveEventWith (arrayName, arrayLength) {
+      var arr = []
+      for (var i = 0; i < arrayLength; i++) {
+        arr.push({})
+      }
+      var e = document.createEvent('Events')
+      e.initEvent('touchmove', true, true)
+      e[arrayName] = arr
+      e.preventDefault = mock.fn()
+      document.dispatchEvent(e)
+      return e
+    }
+
+    beforeEach(function () {
+      assume(document.querySelector('#timeout-dialog')).toBeNull()
+      expect.extend({
+        toHaveHadDefaultPrevented: function (received) {
+          var result = {}
+          var passMessage = ['Expected', received.type, 'event']
+          result.pass = received.preventDefault.mock.calls.length > 0
+          if (result.pass) {
+            passMessage.push('not', 'to have had default prevented')
+          } else {
+            passMessage.push('to have had default prevented, but it wasn\'t prevented')
+          }
+          result.message = () => passMessage.join(' ')
+          return result
+        }
+      })
+    })
+    it('should allow all combinations before dialog is open', function () {
+      expect(simulateTouchmoveWithNumberOfFingers(1)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(2)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(3)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(4)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(5)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(1)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(2)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(3)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(4)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(5)).not.toHaveHadDefaultPrevented()
+    })
+    it('should disallow scroll while dialog is open', function () {
+      openDefaultDialog()
+
+      expect(simulateTouchmoveWithNumberOfFingers(1)).toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(1)).toHaveHadDefaultPrevented()
+    })
+    it('should allow pinch scroll while dialog is open', function () {
+      openDefaultDialog()
+
+      expect(simulateTouchmoveWithNumberOfFingers(2)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(2)).not.toHaveHadDefaultPrevented()
+    })
+    it('should allow other multifinger touches while dialog is open', function () {
+      openDefaultDialog()
+
+      expect(simulateTouchmoveWithNumberOfFingers(3)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(4)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(5)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(3)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(4)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(5)).not.toHaveHadDefaultPrevented()
+    })
+    it('should allow all combinations after dialog is closed', function () {
+      expect(simulateTouchmoveWithNumberOfFingers(1)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(2)).not.toHaveHadDefaultPrevented()
+
+      openDefaultDialog()
+      testScope.dialogControl.closeDialog()
+
+      expect(simulateTouchmoveWithNumberOfFingers(1)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(2)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(3)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(4)).not.toHaveHadDefaultPrevented()
+      expect(simulateTouchmoveWithNumberOfFingers(5)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(1)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(2)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(3)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(4)).not.toHaveHadDefaultPrevented()
+      expect(simulateNumberOfChangedTouches(5)).not.toHaveHadDefaultPrevented()
+    })
+  })
 })
-//
-// function clickElem (elem) {
-//   var e = document.createEvent('Events')
-//   e.initEvent('click', true, true, window, 1)
-//   elem.dispatchEvent(e)
-// }

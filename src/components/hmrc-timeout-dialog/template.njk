@@ -3,7 +3,7 @@
   window.HMRCReady.push(function () {
     (function (validate) {
       window.HMRCFrontend.TimeoutDialog({
-        timeout: validate.int("{{ params.timeout }}"),
+        timeout: validate.int("{{ params.timeout }}") + 5,
         countdown: validate.int("{{ params.countdown }}"),
         keepAliveUrl: validate.string("{{ params.keepAliveUrl }}"),
         signOutUrl: validate.string("{{ params.signOutUrl }}"),
@@ -21,3 +21,4 @@
     }(window.HMRCFrontend.ValidateInput))
   })
 </script>
+<a href="/playground">Testing :)</a>

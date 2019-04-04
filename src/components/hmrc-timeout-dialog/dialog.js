@@ -66,7 +66,7 @@ function displayDialog ($elementToDisplay) {
     var elemToFocusOnReset = document.activeElement
     $dialog.focus()
 
-    document.addEventListener('focus', keepFocus)
+    document.addEventListener('focus', keepFocus, true)
 
     resetElementsFunctionList.push(function () {
       document.removeEventListener('focus', keepFocus)
@@ -90,17 +90,17 @@ function displayDialog ($elementToDisplay) {
 
   function preventMobileScrollWhileAllowingPinchZoom () {
     function handleTouch (e) {
-      var touches = e.originalEvent.touches || e.originalEvent.changedTouches || []
+      var touches = e.touches || e.changedTouches || []
 
       if (touches.length === 1) {
         e.preventDefault()
       }
     }
 
-    document.addEventListener('touchmove', handleTouch)
+    document.addEventListener('touchmove', handleTouch, true)
 
     resetElementsFunctionList.push(function () {
-      document.removeEventListener('touchmove', handleTouch)
+      document.removeEventListener('touchmove', handleTouch, true)
     })
   }
 
