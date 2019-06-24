@@ -1,0 +1,8 @@
+leakDetectionExemptions:
+ - ruleId: 'ip_addresses'
+   filePaths:
+    - '/components/hmrc-header/template.njk'
+    - '/components/hmrc-account-menu/account-menu.js'
+    - '/all.js'
+    - '/vendor/polyfills/Element/prototype/dataset.js'
+repoVisibility: public_0C3F0CE3E6E6448FAD341E7BFA50FCD333E06A20CFF05FCACE61154DDBBADF71
