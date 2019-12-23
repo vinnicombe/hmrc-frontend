@@ -12,6 +12,10 @@ params:
   type: string
   required: false
   description: Url for the service name anchor.
+- name: language
+  type: string
+  required: false
+  description: Either "en" for english or "cy" for welsh.
 
 accessibilityCriteria:
   Text and links in the Header must:
