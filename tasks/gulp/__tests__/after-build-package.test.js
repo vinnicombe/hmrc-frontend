@@ -3,14 +3,18 @@
 const fs = require('fs')
 const path = require('path')
 const util = require('util')
-
 const sass = require('node-sass')
+const replaceInFile = require('replace-in-file')
 const recursive = require('recursive-readdir')
 
 const configPaths = require('../../../config/paths.json')
-
 const sassRender = util.promisify(sass.render)
 const readFile = util.promisify(fs.readFile)
+const options = {
+  files: [path.join(configPaths.package, '/hmrc/components/**/*.scss')],
+  from: /..\/..\/..\/..\//g,
+  to: 'node_modules/'
+}
 
 describe('package/', () => {
   it('should contain the expected files', () => {
@@ -90,8 +94,16 @@ describe('package/', () => {
     })
   })
 
+  function sleep (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
   describe('all.scss', () => {
     it('should compile without throwing an exeption', async () => {
+      // replace relative paths in any scss files
+      await replaceInFile(options)
+      // wait a for find and replace to complete
+      await sleep(200)
       const allScssFile = path.join(configPaths.package, 'hmrc/all.scss')
       await sassRender({ file: allScssFile })
     })

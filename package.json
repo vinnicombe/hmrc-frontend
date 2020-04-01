@@ -66,6 +66,7 @@
     "postcss-scss": "^2.0.0",
     "puppeteer": "^1.19.0",
     "recursive-readdir": "^2.2.2",
+    "replace-in-file": "^5.0.2",
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-node-resolve": "^4.2.4",
     "run-sequence": "^2.2.1",
